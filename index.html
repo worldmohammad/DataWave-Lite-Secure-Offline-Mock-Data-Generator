@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataWave Pro - Mock Data Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #0ea5e9;
+            --dark: #1f2937;
+            --light: #f8fafc;
+            --gray: #9ca3af;
+            --gray-light: #f3f4f6;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        /* Large Demo Version Watermark */
+        body::before {
+            content: 'DEMO VERSION - Not for Production Use';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg);
+            font-size: 5vw;
+            color: rgba(239, 68, 68, 0.12);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 9998;
+            font-weight: 900;
+            user-select: none;
+            letter-spacing: 8px;
+        }
+
+        /* Second Watermark with a Different Angle */
+        body::after {
+            content: 'Contact Us to Purchase | digitalyar.company';
+            position: fixed;
+            top: 20%;
+            left: 10%;
+            transform: rotate(25deg);
+            font-size: 3vw;
+            color: rgba(37, 99, 235, 0.08);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 9997;
+            font-weight: 700;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--info));
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .header-stat {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--gray-light);
+            border-radius: var(--radius-sm);
+            min-width: 130px;
+        }
+        
+        .header-stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .header-stat-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* Upgrade Banner */
+        .upgrade-banner {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--warning);
+            border-radius: var(--radius);
+            padding: 18px 25px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-weight: 600;
+        }
+        .upgrade-banner a {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .upgrade-banner a:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 25px;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .controls-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+        
+        .controls-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-light);
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        .control-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        
+        .control-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .control-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .category-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius-sm);
+            padding: 5px;
+        }
+
+        .category-list::-webkit-scrollbar { width: 6px; }
+        .category-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        
+        .category-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            margin-bottom: 4px;
+            background: white;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        
+        .category-item:hover {
+            background: var(--gray-light);
+        }
+        
+        .category-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .category-count {
+            background: var(--gray-light);
+            color: var(--dark);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .category-item.active .category-count {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn-success { background: linear-gradient(135deg, var(--secondary), #059669); color: white; }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn-warning { background: linear-gradient(135deg, var(--warning), #d97706); color: white; }
+        .btn-warning:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn-danger { background: linear-gradient(135deg, var(--danger), #dc2626); color: white; }
+        .btn-danger:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn-info { background: linear-gradient(135deg, var(--info), #0c8dc9); color: white; }
+        .btn-info:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .output-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-light);
+        }
+        
+        .output-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .preview-badge {
+            background: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .output-format {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .format-btn {
+            padding: 8px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--radius-sm);
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            color: var(--gray);
+        }
+        
+        .format-btn:hover { border-color: var(--primary-light); color: var(--primary); }
+        .format-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        .output-container {
+            flex: 1;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            overflow: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            position: relative;
+        }
+        
+        .output-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--dark);
+            background: white;
+        }
+        
+        .data-table th {
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            white-space: nowrap;
+        }
+        
+        .data-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+        
+        .data-table tr:nth-child(even) { background: #f9fafb; }
+        .data-table tr:hover { background: #f3f4f6; }
+        
+        .json-key { color: #9cdcfe; }
+        .json-string { color: #ce9178; }
+        .json-number { color: #b5cea8; }
+        .json-boolean { color: #569cd6; }
+        .json-null { color: #569cd6; }
+        
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            border-radius: var(--radius);
+            color: white;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 400px;
+        }
+        
+        .notification.show { transform: translateX(0); opacity: 1; }
+        .notification.success { background: linear-gradient(135deg, var(--secondary), #059669); }
+        .notification.error { background: linear-gradient(135deg, var(--danger), #dc2626); }
+        .notification.warning { background: linear-gradient(135deg, var(--warning), #d97706); }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .empty-state i { font-size: 3rem; margin-bottom: 15px; color: #4b5563; }
+        .empty-state h3 { font-size: 1.2rem; margin-bottom: 5px; color: #9ca3af;}
+        .empty-state p { font-size: 0.9rem; }
+        
+        .history-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: white;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        
+        .history-item:hover { border-color: var(--primary-light); }
+        .history-title { font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+        .history-meta { color: var(--gray); display: flex; justify-content: space-between; }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>DataWave Pro</h1>
+                    <p>Professional Mock Data Generator (>50 Fields) — Demo Version</p>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="header-stat">
+                    <div class="header-stat-value" id="totalRecords">0</div>
+                    <div class="header-stat-label">Records</div>
+                </div>
+                <div class="header-stat">
+                    <div class="header-stat-value" id="totalFields">0</div>
+                    <div class="header-stat-label">Fields Selected</div>
+                </div>
+                <div class="header-stat">
+                    <div class="header-stat-value" id="dataSize">0.00</div>
+                    <div class="header-stat-label">Size (KB)</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Upgrade Banner -->
+        <div class="upgrade-banner">
+            <span>⚠️ <strong>DEMO LIMIT:</strong> 100 rows max | JSON export only. Upgrade for unlimited rows, CSV, SQL, Excel & 50+ advanced data types.</span>
+            <a href="https://digitalyar.company/product/spa13-datawave-pro/" target="_blank"><i class="fas fa-rocket"></i> Unlock Full Version</a>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="controls-card">
+                    <h3><i class="fas fa-sliders-h"></i> Configuration</h3>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Number of Records (Demo: Max 100)</label>
+                        <input type="range" class="control-input" id="recordCount" min="1" max="100" value="10">
+                        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.85rem; color: var(--gray); font-weight: 600;">
+                            <span>1</span>
+                            <span id="countValue" style="color: var(--primary); font-size: 1rem;">10</span>
+                            <span>100</span>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Select Fields</label>
+                        <div class="category-list">
+                            <!-- Categories dynamically injected -->
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Name Locale</label>
+                        <select class="control-input" id="nameLanguage">
+                            <option value="en">English (US/UK)</option>
+                            <option value="fa">Persian (Farsi)</option>
+                            <option value="ar">Arabic</option>
+                            <option value="de">German</option>
+                            <option value="zh">Chinese</option>
+                            <option value="mixed">Mixed Global</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="generateBtn">
+                        <i class="fas fa-bolt"></i> Generate Data
+                    </button>
+                    
+                    <div class="actions-grid">
+                        <button class="btn btn-success" id="exportJson" style="font-size: 0.85rem;">
+                            <i class="fas fa-file-code"></i> Export JSON
+                        </button>
+                        <button class="btn btn-info" id="exportCsv" style="font-size: 0.85rem;" disabled>
+                            <i class="fas fa-lock"></i> CSV (Pro)
+                        </button>
+                    </div>
+
+                    <button class="btn btn-warning" id="saveTemplate" disabled>
+                        <i class="fas fa-lock"></i> Save Template (Pro)
+                    </button>
+                    
+                    <button class="btn btn-danger" id="clearData">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+
+                <div class="controls-card" style="text-align: center;">
+                    <h3><i class="fas fa-crown"></i> Go Unlimited</h3>
+                    <p style="margin-bottom: 15px; color: var(--gray);">Unlock 50+ fields, SQL/CSV/Excel export, and unlimited rows.</p>
+                    <a href="https://digitalyar.company/product/spa13-datawave-pro/" target="_blank" class="btn btn-primary" style="text-decoration: none; margin-top: 0;">
+                        <i class="fas fa-shopping-cart"></i> Get DataWave Pro
+                    </a>
+                </div>
+                
+                <div class="controls-card">
+                    <h3><i class="fas fa-history"></i> Generation History</h3>
+                    <div id="historyList" style="max-height: 250px; overflow-y: auto;">
+                        <!-- History injected here -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="output-card">
+                <div class="output-header">
+                    <h3 class="output-title">
+                        <i class="fas fa-code"></i> Data Output
+                        <span id="previewBadge" class="preview-badge">Preview Limited to 50 Rows</span>
+                    </h3>
+                    <div style="font-size: 0.9rem; color: var(--gray); font-weight: 600;">
+                        <span id="outputInfo">Awaiting generation...</span>
+                    </div>
+                </div>
+                
+                <div class="output-format">
+                    <button class="format-btn active" data-format="json">JSON</button>
+                    <button class="format-btn" data-format="table">Data Table</button>
+                    <button class="format-btn" data-format="sql" disabled style="opacity: 0.5; cursor: not-allowed;">SQL (Pro)</button>
+                    <button class="format-btn" data-format="xml" disabled style="opacity: 0.5; cursor: not-allowed;">XML (Pro)</button>
+                </div>
+                
+                <div class="output-container" id="outputContainer">
+                    <div class="empty-state">
+                        <i class="fas fa-database"></i>
+                        <h3>No Data Generated Yet</h3>
+                        <p>Click "Generate Data" to populate mock datasets.</p>
+                    </div>
+                </div>
+                
+                <div class="output-actions">
+                    <button class="btn btn-primary btn-sm" id="copyData" style="flex: 1;">
+                        <i class="fas fa-copy"></i> Copy to Clipboard
+                    </button>
+                    <button class="btn btn-success btn-sm" id="downloadData" style="flex: 1;">
+                        <i class="fas fa-download"></i> Download (JSON Only)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-bell"></i>
+        <span id="notificationText">Notification</span>
+    </div>
+    
+    <script>
+        // Extensive Mock Data Sets
+        const dataSets = {
+            persianFirstNames: {
+                male: ['Mohammad', 'Ali', 'Hossein', 'Mehdi', 'Reza', 'Ahmad', 'Sajjad', 'Amir', 'Kazem', 'Mehran', 'Pouya', 'Saeed', 'Hamid', 'Farhad', 'Parsa', 'Nima', 'Arash', 'Bahram', 'Dariush', 'Kamyar'],
+                female: ['Fatemeh', 'Zahra', 'Maryam', 'Narjes', 'Sara', 'Marzieh', 'Masoumeh', 'Laya', 'Reyhaneh', 'Negar', 'Parisa', 'Atena', 'Yasaman', 'Elena', 'Helma', 'Aida', 'Parnian', 'Bahar', 'Shabnam', 'Golnaz']
+            },
+            persianLastNames: ['Mohammadi', 'Hosseini', 'Karimi', 'Rezaei', 'Mahdavi', 'Jafari', 'Ghasemi', 'Kazemi', 'Akbari', 'Amiri', 'Nouri', 'Rahimi', 'Sharifi', 'Tabatabaei', 'Mousavi', 'Salehi', 'Zarei', 'Farhadi', 'Bahrami', 'Parsa'],
+            
+            englishFirstNames: {
+                male: ['James', 'John', 'Robert', 'Michael', 'William', 'David', 'Richard', 'Charles', 'Joseph', 'Thomas', 'Christopher', 'Daniel', 'Paul', 'Mark', 'Donald', 'George', 'Kenneth', 'Steven', 'Edward', 'Brian'],
+                female: ['Mary', 'Patricia', 'Jennifer', 'Linda', 'Elizabeth', 'Barbara', 'Susan', 'Jessica', 'Sarah', 'Karen', 'Nancy', 'Lisa', 'Margaret', 'Betty', 'Sandra', 'Ashley', 'Dorothy', 'Kimberly', 'Emily', 'Donna']
+            },
+            englishLastNames: ['Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez', 'Robinson'],
+            
+            arabicFirstNames: {
+                male: ['Ahmed', 'Mohammad', 'Abdullah', 'Khalid', 'Omar', 'Ali', 'Youssef', 'Ibrahim', 'Mustafa', 'Hassan'],
+                female: ['Fatima', 'Aisha', 'Maryam', 'Zainab', 'Khadija', 'Noura', 'Sarah', 'Hind', 'Latifa', 'Mona']
+            },
+            arabicLastNames: ['Al-Ali', 'Al-Sultan', 'Al-Najjar', 'Al-Husseini', 'Al-Marzouq', 'Al-Ghanim', 'Al-Sabah', 'Al-Khalifa', 'Al-Fahid', 'Al-Rashid'],
+            
+            germanFirstNames: {
+                male: ['Lukas', 'Maximilian', 'Paul', 'Leon', 'Finn', 'Jonas', 'Felix', 'Elias', 'Noah', 'Luis'],
+                female: ['Emma', 'Mia', 'Hannah', 'Sophia', 'Anna', 'Emilia', 'Lina', 'Lea', 'Lena', 'Marie']
+            },
+            germanLastNames: ['Müller', 'Schmidt', 'Schneider', 'Fischer', 'Weber', 'Meyer', 'Wagner', 'Becker', 'Schulz', 'Hoffmann'],
+            
+            chineseFirstNames: {
+                male: ['Wei', 'Qiang', 'Lei', 'Yang', 'Yong', 'Jun', 'Jie', 'Tao', 'Chao', 'Ming'],
+                female: ['Fang', 'Na', 'Min', 'Jing', 'Li', 'Yan', 'Juan', 'Xia', 'Ting', 'Xiuying']
+            },
+            chineseLastNames: ['Wang', 'Li', 'Zhang', 'Liu', 'Chen', 'Yang', 'Zhao', 'Huang', 'Zhou', 'Wu'],
+            
+            occupations: ['Software Engineer', 'General Practitioner', 'Teacher', 'Nurse', 'Lawyer', 'Sales Manager', 'Accountant', 'Frontend Developer', 'Graphic Designer', 'Salesperson', 'Uber Driver', 'Chef', 'Pilot', 'Police Officer', 'Researcher', 'Artist', 'Writer', 'Journalist', 'Secretary', 'Digital Marketer'],
+            educations: ['High School Diploma', 'Associate Degree', 'Bachelor of Science', 'Bachelor of Arts', 'Master Degree', 'Ph.D.', 'Post-Doctorate'],
+            majors: ['Computer Science', 'Electrical Engineering', 'Civil Engineering', 'Mechanical Engineering', 'Medicine', 'Dentistry', 'Pharmacy', 'Nursing', 'Law', 'Clinical Psychology', 'Business Administration', 'Accounting', 'Economics', 'English Literature', 'Architecture'],
+            universities: ['MIT', 'Stanford University', 'Harvard University', 'Oxford', 'Cambridge', 'Tehran University', 'Sharif University of Technology', 'TUM Germany', 'National University of Singapore', 'ETH Zurich'],
+            
+            eyeColors: ['Dark Brown', 'Light Brown', 'Sky Blue', 'Dark Blue', 'Emerald Green', 'Hazel', 'Grey', 'Amber', 'Black'],
+            favoriteColors: ['Blue', 'Red', 'Green', 'Yellow', 'Purple', 'Orange', 'Pink', 'Brown', 'Black', 'White', 'Grey', 'Turquoise', 'Crimson'],
+            movieGenres: ['Action', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Romance', 'Sci-Fi', 'Thriller', 'Crime', 'Documentary', 'Animation'],
+            musicGenres: ['Pop', 'Rock', 'Hip Hop', 'Jazz', 'Blues', 'Classical', 'Country', 'Electronic', 'House', 'Trance', 'Metal', 'Lo-Fi'],
+            sports: ['Football', 'Basketball', 'Tennis', 'Swimming', 'Volleyball', 'Cycling', 'Gymnastics', 'Wrestling', 'Boxing', 'Karate', 'Golf', 'Chess'],
+            sportsTeams: ['Real Madrid', 'FC Barcelona', 'Manchester United', 'Manchester City', 'Liverpool', 'Bayern Munich', 'Juventus', 'AC Milan', 'PSG', 'Arsenal'],
+            
+            provinces: ['California', 'Texas', 'New York', 'Florida', 'Illinois', 'Pennsylvania', 'Ohio', 'Georgia', 'North Carolina', 'Michigan'],
+            cities: ['New York City', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'Austin'],
+            
+            banks: ['Chase Bank', 'Bank of America', 'Wells Fargo', 'Citibank', 'US Bank', 'PNC Bank', 'TD Bank', 'Capital One', 'HSBC', 'Barclays'],
+            insurances: {
+                base: ['Medicare', 'Medicaid', 'State Health Plan', 'Veterans Affairs'],
+                supplementary: ['UnitedHealth', 'Kaiser Permanente', 'Anthem', 'Centene', 'Humana', 'CVS Health', 'Cigna']
+            },
+            
+            phoneModels: ['iPhone 15 Pro Max', 'iPhone 14', 'Samsung Galaxy S24 Ultra', 'Samsung Galaxy S23', 'Google Pixel 8 Pro', 'Xiaomi 14 Ultra', 'OnePlus 12', 'Huawei P60 Pro'],
+            browsers: ['Google Chrome', 'Mozilla Firefox', 'Apple Safari', 'Microsoft Edge', 'Opera', 'Brave', 'Vivaldi'],
+            
+            usStocks: ['Apple Inc.', 'Microsoft Corporation', 'NVIDIA Corporation', 'Alphabet Inc.', 'Amazon.com Inc.', 'Meta Platforms', 'Tesla Inc.', 'Berkshire Hathaway'],
+            usSymbols: ['AAPL', 'MSFT', 'NVDA', 'GOOGL', 'AMZN', 'META', 'TSLA', 'BRK.B', 'LLY', 'AVGO'],
+            
+            animals: ['Dog', 'Cat', 'Hamster', 'Rabbit', 'Horse', 'Cow', 'Sheep', 'Chicken', 'Duck', 'Eagle', 'Owl', 'Lion', 'Tiger', 'Bear', 'Dolphin', 'Shark', 'Turtle'],
+            drugs: ['Acetaminophen', 'Ibuprofen', 'Naproxen', 'Amoxicillin', 'Azithromycin', 'Loratadine', 'Omeprazole', 'Metformin', 'Aspirin', 'Losartan'],
+            
+            englishBooks: ['To Kill a Mockingbird', '1984', 'The Great Gatsby', 'Pride and Prejudice', 'The Catcher in the Rye', 'The Lord of the Rings', 'The Hobbit', 'Harry Potter', 'Brave New World', 'The Alchemist'],
+            
+            generatePassword: (length = 12) => {
+                const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+                let password = '';
+                for (let i = 0; i < length; i++) password += chars.charAt(Math.floor(Math.random() * chars.length));
+                return password;
+            }
+        };
+
+        const fieldCategories = [
+            {
+                id: 'personal', name: 'Personal Details',
+                fields: [
+                    { id: 'firstName', name: 'First Name', default: true },
+                    { id: 'lastName', name: 'Last Name', default: true },
+                    { id: 'birthDate', name: 'Birth Date', default: true },
+                    { id: 'age', name: 'Age', default: true },
+                    { id: 'gender', name: 'Gender', default: true },
+                    { id: 'eyeColor', name: 'Eye Color', default: false },
+                    { id: 'email', name: 'Email Address', default: true }
+                ]
+            },
+            {
+                id: 'family', name: 'Family & Social',
+                fields: [
+                    { id: 'maritalStatus', name: 'Marital Status', default: true },
+                    { id: 'householdSize', name: 'Household Size', default: false }
+                ]
+            },
+            {
+                id: 'job', name: 'Career & Education',
+                fields: [
+                    { id: 'occupation', name: 'Occupation', default: true },
+                    { id: 'education', name: 'Education Level', default: true },
+                    { id: 'major', name: 'Major/Degree', default: true },
+                    { id: 'university', name: 'University', default: true }
+                ]
+            },
+            {
+                id: 'financial', name: 'Financial',
+                fields: [
+                    { id: 'baseInsurance', name: 'Primary Insurance', default: true },
+                    { id: 'suppInsurance', name: 'Supp. Insurance', default: false },
+                    { id: 'bank', name: 'Bank Name', default: true },
+                    { id: 'cardNumber', name: 'Credit Card', default: true },
+                    { id: 'balance', name: 'Account Balance', default: true },
+                    { id: 'cardExpiry', name: 'Card Expiry', default: false },
+                    { id: 'iban', name: 'IBAN', default: false }
+                ]
+            },
+            {
+                id: 'location', name: 'Location',
+                fields: [
+                    { id: 'state', name: 'State/Province', default: true },
+                    { id: 'city', name: 'City', default: true },
+                    { id: 'postalCode', name: 'Postal Code', default: true },
+                    { id: 'address', name: 'Address Line', default: true }
+                ]
+            },
+            {
+                id: 'technical', name: 'Technical & Digital',
+                fields: [
+                    { id: 'phoneModel', name: 'Phone Model', default: true },
+                    { id: 'phoneNumber', name: 'Phone Number', default: true },
+                    { id: 'browser', name: 'Web Browser', default: false },
+                    { id: 'username', name: 'Username', default: false },
+                    { id: 'ipv4', name: 'IPv4 Address', default: false },
+                    { id: 'ipv6', name: 'IPv6 Address', default: false }
+                ]
+            },
+            {
+                id: 'interests', name: 'Hobbies & Interests',
+                fields: [
+                    { id: 'favoriteColor', name: 'Favorite Color', default: false },
+                    { id: 'favoriteMovie', name: 'Movie Genre', default: false },
+                    { id: 'favoriteMusic', name: 'Music Genre', default: false },
+                    { id: 'favoriteSport', name: 'Sport', default: false },
+                    { id: 'favoriteTeam', name: 'Sports Team', default: false }
+                ]
+            },
+            {
+                id: 'crypto', name: 'Crypto Wallets',
+                fields: [
+                    { id: 'bitcoinWallet', name: 'BTC Address', default: false },
+                    { id: 'ethereumWallet', name: 'ETH Address', default: false },
+                    { id: 'tronWallet', name: 'TRX Address', default: false }
+                ]
+            },
+            {
+                id: 'additional', name: 'Misc. & Testing',
+                fields: [
+                    { id: 'book', name: 'Book Title', default: false },
+                    { id: 'stock', name: 'Stock Company', default: false },
+                    { id: 'password', name: 'Random Password', default: false },
+                    { id: 'animal', name: 'Animal Name', default: false },
+                    { id: 'drug', name: 'Drug/Medicine', default: false }
+                ]
+            }
+        ];
+
+        let selectedFields = new Set();
+        let generatedData = [];
+        let currentFormat = 'json';
+        let generationHistory = [];
+        const PREVIEW_LIMIT = 50;
+        const DEMO_MAX_ROWS = 100;
+
+        function initApp() {
+            loadSelectedFields();
+            if(selectedFields.size === 0) {
+                fieldCategories.forEach(cat => cat.fields.forEach(f => { if(f.default) selectedFields.add(f.id); }));
+            }
+            renderCategoryList();
+            setupEventListeners();
+            updateStats();
+            
+            const savedHistory = localStorage.getItem('dataWaveHistory');
+            if (savedHistory) {
+                generationHistory = JSON.parse(savedHistory);
+                renderHistory();
+            }
+        }
+
+        function loadSelectedFields() {
+            const saved = localStorage.getItem('dw_selectedFields');
+            if (saved) selectedFields = new Set(JSON.parse(saved));
+        }
+
+        function saveSelectedFields() {
+            localStorage.setItem('dw_selectedFields', JSON.stringify([...selectedFields]));
+        }
+
+        function renderCategoryList() {
+            const container = document.querySelector('.category-list');
+            container.innerHTML = '';
+            
+            fieldCategories.forEach(category => {
+                const selectedCount = category.fields.filter(f => selectedFields.has(f.id)).length;
+                const totalCount = category.fields.length;
+                
+                const categoryItem = document.createElement('div');
+                categoryItem.className = 'category-item';
+                if (selectedCount === totalCount) categoryItem.classList.add('active');
+                if (selectedCount > 0 && selectedCount < totalCount) categoryItem.style.borderLeft = '4px solid var(--primary-light)';
+                
+                categoryItem.innerHTML = `<span>${category.name}</span><span class="category-count">${selectedCount}/${totalCount}</span>`;
+                categoryItem.addEventListener('click', () => toggleCategory(category.id));
+                container.appendChild(categoryItem);
+            });
+        }
+
+        function toggleCategory(categoryId) {
+            const category = fieldCategories.find(c => c.id === categoryId);
+            const allSelected = category.fields.every(f => selectedFields.has(f.id));
+            category.fields.forEach(field => allSelected ? selectedFields.delete(field.id) : selectedFields.add(field.id));
+            renderCategoryList();
+            saveSelectedFields();
+            updateStats();
+        }
+
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function generateName(type, gender, language) {
+            if (language === 'mixed') language = getRandomItem(['en', 'fa', 'ar', 'de', 'zh']);
+            const maps = {
+                firstName: { fa: dataSets.persianFirstNames, en: dataSets.englishFirstNames, ar: dataSets.arabicFirstNames, de: dataSets.germanFirstNames, zh: dataSets.chineseFirstNames },
+                lastName: { fa: dataSets.persianLastNames, en: dataSets.englishLastNames, ar: dataSets.arabicLastNames, de: dataSets.germanLastNames, zh: dataSets.chineseLastNames }
+            };
+            return type === 'firstName' ? getRandomItem(maps.firstName[language][gender]) : getRandomItem(maps.lastName[language]);
+        }
+
+        function generateData(count) {
+            const data = [];
+            const language = document.getElementById('nameLanguage').value;
+            
+            for (let i = 0; i < count; i++) {
+                const person = {};
+                const gender = Math.random() > 0.5 ? 'male' : 'female';
+                
+                let fName = '', lName = '';
+                if (selectedFields.has('firstName')) { person.firstName = generateName('firstName', gender, language); fName = person.firstName; }
+                if (selectedFields.has('lastName')) { person.lastName = generateName('lastName', null, language); lName = person.lastName; }
+
+                const cleanStr = (s) => (s || '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '').toLowerCase();
+                const enF = cleanStr(fName) || generateName('firstName', gender, 'en').toLowerCase();
+                const enL = cleanStr(lName) || generateName('lastName', null, 'en').toLowerCase();
+                
+                if (selectedFields.has('birthDate') || selectedFields.has('age')) {
+                    const age = Math.floor(Math.random() * (75)) + 18;
+                    const bYear = new Date().getFullYear() - age;
+                    const bMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+                    const bDay = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0');
+                    if (selectedFields.has('birthDate')) person.birthDate = `${bYear}-${bMonth}-${bDay}`;
+                    if (selectedFields.has('age')) person.age = age;
+                }
+                
+                if (selectedFields.has('gender')) person.gender = gender === 'male' ? 'Male' : 'Female';
+                if (selectedFields.has('eyeColor')) person.eyeColor = getRandomItem(dataSets.eyeColors);
+                
+                if (selectedFields.has('email')) {
+                    const domain = getRandomItem(['gmail.com', 'yahoo.com', 'outlook.com', 'example.com']);
+                    person.email = `${enF}.${enL}${Math.random() > 0.5 ? Math.floor(Math.random()*100) : ''}@${domain}`;
+                }
+                
+                if (selectedFields.has('maritalStatus')) person.maritalStatus = getRandomItem(['Single', 'Married', 'Divorced', 'Widowed']);
+                if (selectedFields.has('householdSize')) person.householdSize = Math.floor(Math.random() * 6) + 1;
+                if (selectedFields.has('occupation')) person.occupation = getRandomItem(dataSets.occupations);
+                if (selectedFields.has('education')) person.education = getRandomItem(dataSets.educations);
+                if (selectedFields.has('major')) person.major = getRandomItem(dataSets.majors);
+                if (selectedFields.has('university')) person.university = getRandomItem(dataSets.universities);
+                if (selectedFields.has('baseInsurance')) person.baseInsurance = getRandomItem(dataSets.insurances.base);
+                if (selectedFields.has('suppInsurance')) person.suppInsurance = getRandomItem(dataSets.insurances.supplementary);
+                if (selectedFields.has('bank')) person.bank = getRandomItem(dataSets.banks);
+                
+                if (selectedFields.has('cardNumber')) {
+                    let card = ''; for(let c=0; c<16; c++) { card += Math.floor(Math.random()*10); if((c+1)%4===0 && c<15) card += '-'; }
+                    person.cardNumber = card;
+                }
+                if (selectedFields.has('balance')) person.balance = parseFloat((Math.random() * 100000).toFixed(2));
+                if (selectedFields.has('cardExpiry')) person.cardExpiry = `${String(Math.floor(Math.random()*12)+1).padStart(2,'0')}/${String(new Date().getFullYear()+Math.floor(Math.random()*5)).slice(-2)}`;
+                if (selectedFields.has('iban')) { let iban='US'; for(let c=0; c<22; c++) iban += Math.floor(Math.random()*10); person.iban = iban; }
+                
+                if (selectedFields.has('state')) person.state = getRandomItem(dataSets.provinces);
+                if (selectedFields.has('city')) person.city = getRandomItem(dataSets.cities);
+                if (selectedFields.has('postalCode')) { let p=''; for(let c=0; c<5; c++) p+=Math.floor(Math.random()*10); person.postalCode = p; }
+                if (selectedFields.has('address')) person.address = `${Math.floor(Math.random()*9000)+100} ${getRandomItem(['Main', 'Oak', 'Pine', 'Maple', 'Cedar'])} St.`;
+                
+                if (selectedFields.has('phoneModel')) person.phoneModel = getRandomItem(dataSets.phoneModels);
+                if (selectedFields.has('phoneNumber')) person.phoneNumber = '+1 ' + Math.floor(Math.random()*900+100) + '-' + Math.floor(Math.random()*900+100) + '-' + Math.floor(Math.random()*9000+1000);
+                if (selectedFields.has('browser')) person.browser = getRandomItem(dataSets.browsers);
+                if (selectedFields.has('username')) person.username = `${enF}_${enL}${Math.floor(Math.random() * 1000)}`;
+                if (selectedFields.has('ipv4')) person.ipv4 = Array.from({length:4}, ()=>Math.floor(Math.random()*256)).join('.');
+                if (selectedFields.has('ipv6')) person.ipv6 = Array.from({length:8}, ()=>Math.floor(Math.random()*65536).toString(16)).join(':');
+                
+                if (selectedFields.has('favoriteColor')) person.favoriteColor = getRandomItem(dataSets.favoriteColors);
+                if (selectedFields.has('favoriteMovie')) person.favoriteMovie = getRandomItem(dataSets.movieGenres);
+                if (selectedFields.has('favoriteMusic')) person.favoriteMusic = getRandomItem(dataSets.musicGenres);
+                if (selectedFields.has('favoriteSport')) person.favoriteSport = getRandomItem(dataSets.sports);
+                if (selectedFields.has('favoriteTeam')) person.favoriteTeam = getRandomItem(dataSets.sportsTeams);
+                
+                if (selectedFields.has('bitcoinWallet')) { let a='1'; for(let c=0;c<33;c++) a+='abcdefghijkmnopqrstuvwxyz123456789'[Math.floor(Math.random()*34)]; person.bitcoinWallet=a; }
+                if (selectedFields.has('ethereumWallet')) { let a='0x'; for(let c=0;c<40;c++) a+='abcdef0123456789'[Math.floor(Math.random()*16)]; person.ethereumWallet=a; }
+                if (selectedFields.has('tronWallet')) { let a='T'; for(let c=0;c<33;c++) a+='abcdefghijkmnopqrstuvwxyz123456789'[Math.floor(Math.random()*34)]; person.tronWallet=a; }
+                
+                if (selectedFields.has('book')) person.book = getRandomItem(dataSets.englishBooks);
+                if (selectedFields.has('stock')) person.stock = getRandomItem(dataSets.usStocks);
+                if (selectedFields.has('password')) person.password = dataSets.generatePassword();
+                if (selectedFields.has('animal')) person.animal = getRandomItem(dataSets.animals);
+                if (selectedFields.has('drug')) person.drug = getRandomItem(dataSets.drugs);
+                
+                person.id = i + 1;
+                data.push(person);
+            }
+            return data;
+        }
+
+        function renderOutput(data, format) {
+            const container = document.getElementById('outputContainer');
+            const previewBadge = document.getElementById('previewBadge');
+            
+            if (data.length === 0) {
+                container.style.background = '#f3f4f6';
+                previewBadge.style.display = 'none';
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-database"></i><h3>No Data to Display</h3><p>Configure settings and generate.</p></div>`;
+                return;
+            }
+
+            container.style.background = format === 'table' ? '#ffffff' : '#1e1e1e';
+            
+            let previewData = data;
+            if(data.length > PREVIEW_LIMIT) {
+                previewData = data.slice(0, PREVIEW_LIMIT);
+                previewBadge.style.display = 'inline-block';
+            } else {
+                previewBadge.style.display = 'none';
+            }
+
+            if (format === 'json') {
+                const jsonStr = JSON.stringify(previewData, null, 2);
+                const finalHTML = jsonStr.length < 50000 ? syntaxHighlight(jsonStr) : jsonStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                container.innerHTML = `<pre>${finalHTML}</pre>`;
+            } 
+            else if (format === 'table') {
+                const fields = Object.keys(previewData[0]);
+                let html = '<table class="data-table"><thead><tr>';
+                fields.forEach(f => html += `<th>${f}</th>`);
+                html += '</tr></thead><tbody>';
+                previewData.forEach(row => {
+                    html += '<tr>';
+                    fields.forEach(f => html += `<td>${row[f] !== undefined ? String(row[f]).substring(0, 40) : '-'}</td>`);
+                    html += '</tr>';
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            }
+            else if (format === 'sql' || format === 'xml') {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-lock"></i><h3>Pro Feature</h3><p><a href="https://digitalyar.company/product/spa13-datawave-pro/" target="_blank">Upgrade to DataWave Pro</a> to export SQL and XML formats.</p></div>`;
+            }
+        }
+
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                let cls = 'json-number';
+                if (/^"/.test(match)) { cls = /:$/.test(match) ? 'json-key' : 'json-string'; } 
+                else if (/true|false/.test(match)) { cls = 'json-boolean'; } 
+                else if (/null/.test(match)) { cls = 'json-null'; }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        function updateStats() {
+            document.getElementById('totalRecords').textContent = generatedData.length;
+            document.getElementById('totalFields').textContent = selectedFields.size;
+            document.getElementById('dataSize').textContent = (JSON.stringify(generatedData).length / 1024).toFixed(2);
+            document.getElementById('outputInfo').textContent = generatedData.length > 0 ? `${generatedData.length} rows | ${selectedFields.size} fields` : 'Configure settings...';
+        }
+
+        function saveToHistory(data) {
+            const h = { id: Date.now(), time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}), count: data.length, fields: selectedFields.size };
+            generationHistory.unshift(h);
+            if (generationHistory.length > 8) generationHistory.pop();
+            renderHistory();
+            localStorage.setItem('dataWaveHistory', JSON.stringify(generationHistory));
+        }
+
+        function renderHistory() {
+            const c = document.getElementById('historyList');
+            if (generationHistory.length === 0) return c.innerHTML = '<p style="text-align:center; color:var(--gray); margin-top:20px;">No history yet</p>';
+            c.innerHTML = generationHistory.map(h => `<div class="history-item"><div class="history-title">Generation @ ${h.time}</div><div class="history-meta"><span>${h.count} Rows</span><span>${h.fields} Fields</span></div></div>`).join('');
+        }
+
+        function setupEventListeners() {
+            const recordCount = document.getElementById('recordCount');
+            recordCount.addEventListener('input', () => document.getElementById('countValue').textContent = recordCount.value);
+
+            document.getElementById('generateBtn').addEventListener('click', () => {
+                if (selectedFields.size === 0) return showNotification('Please select at least one field.', 'warning');
+                const count = parseInt(recordCount.value);
+                if (count > DEMO_MAX_ROWS) return showNotification(`Demo limited to ${DEMO_MAX_ROWS} rows. Upgrade for unlimited.`, 'warning');
+                generatedData = generateData(count);
+                renderOutput(generatedData, currentFormat);
+                saveToHistory(generatedData);
+                updateStats();
+                showNotification(`Successfully generated ${count} records.`, 'success');
+            });
+
+            document.querySelectorAll('.format-btn:not([disabled])').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFormat = btn.dataset.format;
+                    renderOutput(generatedData, currentFormat);
+                });
+            });
+
+            document.querySelectorAll('.format-btn[disabled]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    showNotification('This format is available in DataWave Pro. Upgrade to unlock.', 'warning');
+                });
+            });
+
+            document.getElementById('copyData').addEventListener('click', () => {
+                if(generatedData.length === 0) return showNotification('Nothing to copy.', 'warning');
+                navigator.clipboard.writeText(JSON.stringify(generatedData)).then(() => showNotification('Copied raw JSON to clipboard.', 'success'));
+            });
+
+            document.getElementById('downloadData').addEventListener('click', () => {
+                if (generatedData.length === 0) return showNotification('No data to download.', 'warning');
+                const ts = new Date().toISOString().slice(0, 19).replace(/[:]/g, '-');
+                const content = JSON.stringify(generatedData, null, 2);
+                const fname = `datawave_demo_${ts}.json`;
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(new Blob([content], { type: 'application/json' }));
+                a.download = fname; a.click();
+                showNotification(`Downloaded ${fname}`, 'success');
+            });
+
+            document.getElementById('exportJson').addEventListener('click', () => {
+                document.querySelector('[data-format="json"]').click();
+                document.getElementById('downloadData').click();
+            });
+            
+            document.getElementById('exportCsv').addEventListener('click', () => {
+                showNotification('CSV export is a Pro feature. Please upgrade to unlock.', 'warning');
+            });
+
+            document.getElementById('saveTemplate').addEventListener('click', () => {
+                showNotification('Save Template is a Pro feature. Please upgrade to unlock.', 'warning');
+            });
+            
+            document.getElementById('clearData').addEventListener('click', () => {
+                if(confirm('Are you sure you want to clear the generated data?')) { generatedData = []; renderOutput([], currentFormat); updateStats(); }
+            });
+        }
+
+        function showNotification(msg, type) {
+            const notif = document.getElementById('notification');
+            document.getElementById('notificationText').textContent = msg;
+            notif.className = `notification ${type} show`;
+            setTimeout(() => notif.classList.remove('show'), 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+    <script>
+        // Disable Right-Click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('⛔ Saving the demo file is not allowed. Please visit digitalyar.company to purchase the full version.');
+            return false;
+        });
+
+        // Disable Save Shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                alert('⛔ Saving the demo file is not allowed. Upgrade to the full version at digitalyar.company.');
+                return false;
+            }
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.key === 'i') {
+                e.preventDefault();
+                return false;
+            }
+            if (e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>
