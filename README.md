@@ -12,7 +12,7 @@ Unlike other mock data generators, DataWave runs **100% offline** inside your br
 
 Generate test data instantly right in your browser. No installation needed:
 
-👉 **[LAUNCH LIVE GENERATOR NOW](https://worldmohammad.github.io/datawave-lite-mock-data/)**
+👉 **[LAUNCH LIVE GENERATOR NOW](https://digitalyar.company/product/spa13-datawave-pro/)**
 
 ---
 
