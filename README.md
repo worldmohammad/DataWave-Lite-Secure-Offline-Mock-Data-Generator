@@ -31,7 +31,7 @@ DataWave Lite is great for basic testing, but real-world enterprise applications
 | Save/Load Schemas | ❌ | ✅ Included |
 | Relational Simulation | ❌ | ✅ Included |
 
-👉 **[Unlock DataWave Pro Today (Lifetime Access)](https://digitalyar.com/datawave-pro)**
+👉 **[Unlock DataWave Pro Today (Lifetime Access)](https://digitalyar.company/product/spa13-datawave-pro/)**
 
 ---
 
